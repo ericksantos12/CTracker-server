@@ -49,6 +49,7 @@ model Championship {
   name        String             @map("cha_name")
   picture     String?            @map("cha_picture")
   description String             @map("cha_description")
+  game        String             @map("cha_game")
   status      ChampionshipStatus @map("cha_status")
   type        ChampionshipType   @map("cha_type")
   createdAt   DateTime           @default(now()) @map("cha_createdAt")
@@ -89,7 +90,7 @@ model TeamScore {
   id        Int @id @default(autoincrement()) @map("ts_idteamscore")
   matchId   Int @map("mat_idmatch")
   teamId    Int @map("team_idteam")
-  teamScore Int @map("ts_teamscore") @default(0)
+  teamScore Int @default(0) @map("ts_teamscore")
 
   team  Team  @relation(fields: [teamId], references: [id])
   match Match @relation(fields: [matchId], references: [id])
