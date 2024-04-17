@@ -1,8 +1,15 @@
-import fastify from "fastify";
-import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
+import fastify from "fastify";
+import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
+import { errorHandler } from "./error-handler";
+import { createChampionship } from "./routes/create-championship";
 import { createUser } from "./routes/create-user";
+import { getChampionship } from "./routes/get-championship";
+import dotenv from 'dotenv';
+import { getChampionshipsList } from "./routes/get-championships-list";
+
+dotenv.config()
 
 const app = fastify();
 
@@ -28,7 +35,13 @@ app.setSerializerCompiler(serializerCompiler)
 
 app.register(createUser)
 
-app.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
-    console.log('HTTP Server Running');
+app.register(createChampionship)
+app.register(getChampionship)
+app.register(getChampionshipsList)
+
+app.setErrorHandler(errorHandler)
+
+app.listen({ port: 3000, host: '0.0.0.0' }).then(() => {
+    console.log(`HTTP Server Running`);
 });
 
