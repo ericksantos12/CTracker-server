@@ -14,6 +14,8 @@
 
 ### 🔨 Requisitos Funcionais
 
+- [x] O usuário deve poder se cadastrar
+- [ ] O usuário deve poder se autenticar
 - [ ] O usuário deve poder visualizar a lista de campeonatos
 - [ ] O usuário deve poder visualizar o campeonato
 - [ ] O usuário deve poder visualizar as equipes do campeonato
@@ -55,6 +57,18 @@ $ npm run dev
 
 # O servidor inciará na porta:3333 - acesse http://localhost:3333 
 
+```
+
+Subindo o banco de dados utilizando docker
+
+```bash
+docker run -d -e POSTGRES_DB=ctracker -e POSTGRES_PASSWORD=dev -e POSTGRES_USER=postgres -p "5432:5432" postgres
+```
+
+URL de conexão com o banco de dados
+
+```bash
+DATABASE_URL="postgresql://postgres:dev@localhost:5432/ctracker?schema=public"
 ```
 
 <!-- ## 🛠 Tecnologias
