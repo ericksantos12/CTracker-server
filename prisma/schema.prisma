@@ -12,3 +12,97 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id           Int            @id @default(autoincrement()) @map("user_iduser")
+  email        String         @unique @map("user_email")
+  password     String         @map("user_password")
+  name         String         @map("user_name")
+  nickname     String         @map("user_nickname")
+  picture      String?        @map("user_picture")
+  score        Int            @default(0) @map("user_score")
+  Team         Team[]
+  Championship Championship[]
+
+  @@map("tb_user")
+}
+
+model Team {
+  id          Int     @id @default(autoincrement()) @map("team_idteam")
+  userId      Int     @map("user_iduser")
+  name        String  @map("team_name")
+  picture     String? @map("team_picture")
+  description String  @map("team_description")
+  numplayer   Int     @map("team_numplayer")
+  score       Int     @default(0) @map("team_score")
+
+  user             User               @relation(fields: [userId], references: [id], onDelete: Restrict)
+  TeamChampionship TeamChampionship[]
+  TeamScore        TeamScore[]
+
+  @@map("tb_team")
+}
+
+model Championship {
+  id          Int                @id @default(autoincrement()) @map("cha_idchampionship")
+  userId      Int                @map("user_iduser")
+  name        String             @map("cha_name")
+  picture     String?            @map("cha_picture")
+  description String             @map("cha_description")
+  status      ChampionshipStatus @map("cha_status")
+  type        ChampionshipType   @map("cha_type")
+  createdAt   DateTime           @default(now()) @map("cha_createdAt")
+
+  user             User               @relation(fields: [userId], references: [id], onDelete: Restrict)
+  TeamChampionship TeamChampionship[]
+  Match            Match[]
+
+  @@map("tb_championship")
+}
+
+model TeamChampionship {
+  teamId         Int @map("team_idteam")
+  championshipId Int @map("cha_idchampionship")
+  victory        Int @default(0) @map("tc_victory")
+  defeat         Int @default(0) @map("tc_defeat")
+  draw           Int @default(0) @map("tc_draw")
+
+  team         Team         @relation(fields: [teamId], references: [id], onDelete: Restrict)
+  championship Championship @relation(fields: [championshipId], references: [id], onDelete: Restrict)
+
+  @@unique([teamId, championshipId])
+  @@map("tb_team_championship")
+}
+
+model Match {
+  id             Int      @id @default(autoincrement()) @map("mat_idmatch")
+  championshipId Int      @map("cha_idchampionship")
+  date           DateTime @default(now()) @map("mat_date")
+
+  championship Championship @relation(fields: [championshipId], references: [id])
+  TeamScore    TeamScore[]
+
+  @@map("tb_match")
+}
+
+model TeamScore {
+  id        Int @id @default(autoincrement()) @map("ts_idteamscore")
+  matchId   Int @map("mat_idmatch")
+  teamId    Int @map("team_idteam")
+  teamScore Int @map("ts_teamscore") @default(0)
+
+  team  Team  @relation(fields: [teamId], references: [id])
+  match Match @relation(fields: [matchId], references: [id])
+
+  @@map("tb_team_score")
+}
+
+enum ChampionshipType {
+  VIRTUAL
+  PHYSICAL
+}
+
+enum ChampionshipStatus {
+  ACTIVE
+  INACTIVE
+}
