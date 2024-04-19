@@ -9,6 +9,9 @@
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio"
   },
+  "engines" : { 
+    "node" : ">=20.12.2"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
