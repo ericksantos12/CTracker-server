@@ -6,7 +6,7 @@ import { generateHash } from '../utils/hash';
 
 export async function createUser(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().post(
-        '/users',
+        '/signup',
         {
             schema: {
                 summary: 'Create an user',
