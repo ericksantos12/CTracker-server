@@ -13,7 +13,7 @@ import { getChampionship } from './routes/get-championship'
 import { getChampionshipsList } from './routes/get-championships-list'
 import { createTeam } from './routes/create-team'
 import { getUser } from './routes/get-user'
-
+import { getChampionshipTeams } from './routes/get-championship-teams'
 
 const app = fastify()
 
@@ -38,12 +38,13 @@ app.register(fastifySwaggerUi, {
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
 
-app.register(createUser, { prefix: '/api' })
-app.register(createTeam, { prefix: '/api' })
-app.register(createChampionship, { prefix: '/api' })
-app.register(getChampionship, { prefix: '/api' })
-app.register(getChampionshipsList, { prefix: '/api' })
-app.register(getUser, { prefix: '/api' })
+app.register(createUser, { prefix: '/v1' })
+app.register(createTeam, { prefix: '/v1' })
+app.register(createChampionship, { prefix: '/v1' })
+app.register(getChampionship, { prefix: '/v1' })
+app.register(getChampionshipsList, { prefix: '/v1' })
+app.register(getUser, { prefix: '/v1' })
+app.register(getChampionshipTeams, { prefix: '/v1' })
 
 app.setErrorHandler(errorHandler)
 
