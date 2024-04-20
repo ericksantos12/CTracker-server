@@ -7,15 +7,20 @@
     "build": "tsup src --format esm",
     "start": "node dist/server.mjs",
     "db:migrate": "prisma migrate dev",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "db:seed": "prisma db seed"
   },
-  "engines" : { 
-    "node" : ">=20.12.2"
+  "engines": {
+    "node": ">=20.12.2"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.12.7",
     "prisma": "^5.12.1",
