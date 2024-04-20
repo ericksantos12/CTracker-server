@@ -17,6 +17,7 @@ export async function getChampionship(app: FastifyInstance) {
                     200: z.object({
                         championship: z.object({
                             id: z.number().int(),
+                            ownerId: z.number().int(),
                             name: z.string().min(3),
                             picture: z.string().url().nullable(),
                             description: z.string().min(3),
@@ -35,6 +36,7 @@ export async function getChampionship(app: FastifyInstance) {
             const championship = await prisma.championship.findUnique({
                 select: {
                     id: true,
+                    userId: true,
                     name: true,
                     picture: true,
                     description: true,
@@ -46,7 +48,7 @@ export async function getChampionship(app: FastifyInstance) {
                         select: {
                             TeamChampionship: true
                         }
-                    }
+                    },
                 },
                 where: {
                     id: championshipId,
@@ -60,6 +62,7 @@ export async function getChampionship(app: FastifyInstance) {
             return reply.send({ 
                 championship: {
                     id: championship.id,
+                    ownerId: championship.userId,
                     name: championship.name,
                     picture: championship.picture,
                     description: championship.description,
