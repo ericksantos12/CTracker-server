@@ -77,10 +77,11 @@ async function seed() {
 }
 
 seed()
-    .then(() => {
-        console.log('Database seeded! 🌱')
-        prisma.$disconnect()
-    })
     .catch((error) => {
         console.log(error)
+        process.exit(1)
+    })
+    .finally(() => {
+        console.log('Database seeded! 🌱')
+        prisma.$disconnect()
     })
