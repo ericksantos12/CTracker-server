@@ -22,7 +22,7 @@ export async function getChampionshipsList(app: FastifyInstance) {
                 name: z.string().min(3),
                 picture: z.string().url().nullable(),
                 type: z.enum(['PHYSICAL', 'VIRTUAL']),
-                game: z.string().min(3),
+                game: z.string(),
                 createdAt: z.date(),
                 teamsAmount: z.number().int(),
               })
@@ -57,12 +57,15 @@ export async function getChampionshipsList(app: FastifyInstance) {
               },
             }
           : {},
-        take: 10,
         skip: pageIndex * 10,
+        take: 10,
         orderBy: {
           createdAt: 'desc',
         },
       })
+
+      console.log(championships);
+      
 
       return reply.send({
         championships: championships.map((championship) => {
