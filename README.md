@@ -18,12 +18,13 @@
 - [ ] O usuário deve poder se autenticar
 - [x] O usuário deve poder visualizar a lista de campeonatos
 - [x] O usuário deve poder visualizar o campeonato
+- [x] O usuário deve poder visualizar o seu perfil
 - [ ] O usuário deve poder visualizar as equipes do campeonato
 - [ ] O usuário deve poder visualizar as partidas que ocorreram do campeonato
 - [ ] O usuário deve poder visualizar o histórico de pontos das equipes
 
 - [x] O organizador deve poder criar um campeonato
-- [ ] O organizador deve poder criar uma equipe
+- [x] O organizador deve poder criar uma equipe
 - [ ] O organizador deve poder criar um jogador
 - [ ] O organizador deve poder adicionar jogadores nas suas equipes
 - [ ] O organizador deve poder adicionar equipes no campeonato
