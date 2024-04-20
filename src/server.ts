@@ -10,10 +10,10 @@ import { errorHandler } from './error-handler'
 import { createChampionship } from './routes/create-championship'
 import { createUser } from './routes/create-user'
 import { getChampionship } from './routes/get-championship'
-import dotenv from 'dotenv'
 import { getChampionshipsList } from './routes/get-championships-list'
+import { createTeam } from './routes/create-team'
+import { getUser } from './routes/get-user'
 
-dotenv.config()
 
 const app = fastify()
 
@@ -39,9 +39,11 @@ app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
 
 app.register(createUser, { prefix: '/api' })
+app.register(createTeam, { prefix: '/api' })
 app.register(createChampionship, { prefix: '/api' })
 app.register(getChampionship, { prefix: '/api' })
 app.register(getChampionshipsList, { prefix: '/api' })
+app.register(getUser, { prefix: '/api' })
 
 app.setErrorHandler(errorHandler)
 
