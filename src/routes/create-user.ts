@@ -1,12 +1,12 @@
-import { FastifyInstance } from 'fastify';
-import { ZodTypeProvider } from 'fastify-type-provider-zod';
-import z from 'zod';
-import { prisma } from '../lib/prisma';
-import { generateHash } from '../utils/hash';
+import { FastifyInstance } from 'fastify'
+import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import z from 'zod'
+import { prisma } from '../lib/prisma'
+import { generateHash } from '../utils/hash'
 
 export async function createUser(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().post(
-        '/users',
+        '/signup',
         {
             schema: {
                 summary: 'Create an user',
@@ -26,20 +26,37 @@ export async function createUser(app: FastifyInstance) {
             },
         },
         async (request, reply) => {
-            const { email, password, name, nickname, picture } = request.body;
+            const { email, password, name, nickname, picture } = request.body
 
-            const hash = await generateHash(password);
+            const [findEmail, findNickname] = await Promise.all([
+                prisma.user.findUnique({
+                    where: {
+                        email,
+                    },
+                }),
+                prisma.user.findUnique({
+                    where: {
+                        nickname,
+                    },
+                }),
+            ])
+
+            if (findEmail !== null) throw new Error('Email already exists')
+            if (findNickname !== null)
+                throw new Error('Nickname already exists')
+
+            const hash = await generateHash(password)
             const user = await prisma.user.create({
                 data: {
                     email,
                     password: hash,
                     name,
                     nickname,
-                    picture
-                }
+                    picture,
+                },
             })
 
             return reply.status(201).send({ userId: user.id })
         }
-    );
+    )
 }

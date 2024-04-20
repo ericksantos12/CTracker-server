@@ -18,7 +18,7 @@ model User {
   email        String         @unique @map("user_email")
   password     String         @map("user_password")
   name         String         @map("user_name")
-  nickname     String         @map("user_nickname")
+  nickname     String         @unique @map("user_nickname")
   picture      String?        @map("user_picture")
   score        Int            @default(0) @map("user_score")
   Team         Team[]
@@ -32,8 +32,8 @@ model Team {
   userId      Int     @map("user_iduser")
   name        String  @map("team_name")
   picture     String? @map("team_picture")
-  description String  @map("team_description")
-  numplayer   Int     @map("team_numplayer")
+  description String?  @map("team_description")
+  maxPlayers  Int     @map("team_maxPlayers")
   score       Int     @default(0) @map("team_score")
 
   user             User               @relation(fields: [userId], references: [id], onDelete: Restrict)
